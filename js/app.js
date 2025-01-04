@@ -3,6 +3,7 @@ import { guest } from './guest.js';
 import { theme } from './theme.js';
 import { comment } from './comment.js';
 
+
 document.addEventListener('DOMContentLoaded', () => {
     guest.init();
     window.AOS.init();
