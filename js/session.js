@@ -1,3 +1,4 @@
+
 import { dto } from './dto.js';
 import { storage } from './storage.js';
 import { request, HTTP_POST, HTTP_GET } from './request.js';
@@ -20,17 +21,17 @@ export const session = (() => {
      */
     const login = (body) => {
         return request(HTTP_POST, '/api/session')
-            .body(body)
-            .send(dto.tokenResponse)
-            .then(
-                (res) => {
-                    if (res.code === 200) {
-                        setToken(res.data.token);
-                    }
+        .body(body)
+        .send(dto.tokenResponse)
+        .then(
+            (res) => {
+                if (res.code === 200) {
+                    setToken(res.data.token);
+                }
 
-                    return res.code === 200;
-                },
-                () => false
+                return res.code === 200;
+            },
+            () => false
             );
     };
 
@@ -55,20 +56,20 @@ export const session = (() => {
      */
     const guest = () => {
         return request(HTTP_GET, '/api/config')
-            .token(document.body.getAttribute('data-key'))
-            .send()
-            .then((res) => {
-                if (res.code !== 200) {
-                    return res;
-                }
-
-                const config = storage('config');
-                for (let [k, v] of Object.entries(res.data)) {
-                    config.set(k, v);
-                }
-
+        .token(document.body.getAttribute('data-key'))
+        .send()
+        .then((res) => {
+            if (res.code !== 200) {
                 return res;
-            });
+            }
+
+            const config = storage('config');
+            for (let [k, v] of Object.entries(res.data)) {
+                config.set(k, v);
+            }
+
+            return res;
+        });
     };
 
     /**

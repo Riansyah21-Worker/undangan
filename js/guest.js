@@ -1,3 +1,4 @@
+
 import { util } from './util.js';
 import { audio } from './audio.js';
 import { theme } from './theme.js';
@@ -247,8 +248,8 @@ export const guest = (() => {
 
                 comment.init();
                 comment.comment()
-                    .then(() => progress.complete('comment'))
-                    .catch(() => progress.invalid('comment'));
+                .then(() => progress.complete('comment'))
+                .catch(() => progress.invalid('comment'));
             }).catch(() => progress.invalid('config'));
         }
     };

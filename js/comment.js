@@ -8,6 +8,7 @@ import { storage } from './storage.js';
 import { pagination } from './pagination.js';
 import { request, HTTP_GET, HTTP_POST, HTTP_DELETE, HTTP_PUT } from './request.js';
 
+
 export const comment = (() => {
 
     let owns = null;
@@ -41,7 +42,7 @@ export const comment = (() => {
         const status = await fetch(`https://api.ulems.my.id/comments/${id}`, {
             method: 'DELETE',
             headers: {
-            'Authorization': 'Bearer bfb9cfea33ab7ae21a315fbd6f065a815d3e20ff2f007aa2ca' // Gantilah token sesuai yang benar
+            'Authorization': 'Bearer qhcu3tQPlq2s04P7eldtSmQKZVbh9gPpyrk1qlVvVxJZpD8SWbzOkPn6miYg1q54' // Gantilah token sesuai yang benar
         }
     }).then(response => {
         return response.json();

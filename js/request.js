@@ -1,3 +1,4 @@
+
 import { dto } from './dto.js';
 
 export const HTTP_GET = 'GET';
@@ -29,65 +30,65 @@ export const request = (method, path) => {
          */
         send(transform = null) {
             return fetch(url + path, req)
-                .then((res) => {
-                    return res.json().then((json) => {
-                        if (res.status >= 500 && (json.message ?? json[0])) {
-                            throw new Error(json.message ?? json[0]);
-                        }
+            .then((res) => {
+                return res.json().then((json) => {
+                    if (res.status >= 500 && (json.message ?? json[0])) {
+                        throw new Error(json.message ?? json[0]);
+                    }
 
-                        if (json.error) {
-                            throw new Error(json.error[0]);
-                        }
+                    if (json.error) {
+                        throw new Error(json.error[0]);
+                    }
 
-                        if (transform) {
-                            json.data = transform(json.data);
-                        }
+                    if (transform) {
+                        json.data = transform(json.data);
+                    }
 
-                        return dto.baseResponse(json.code, json.data, json.error);
-                    });
-                })
-                .catch((err) => {
-                    alert(err);
-                    throw new Error(err);
+                    return dto.baseResponse(json.code, json.data, json.error);
                 });
+            })
+            .catch((err) => {
+                alert(err);
+                throw new Error(err);
+            });
         },
         /**
          * @returns {Promise<boolean>}
          */
         download() {
             return fetch(url + path, req)
-                .then((res) => {
-                    if (res.status !== 200) {
-                        return false;
-                    }
+            .then((res) => {
+                if (res.status !== 200) {
+                    return false;
+                }
 
-                    const existingLink = document.querySelector('a[download]');
-                    if (existingLink) {
-                        document.body.removeChild(existingLink);
-                    }
+                const existingLink = document.querySelector('a[download]');
+                if (existingLink) {
+                    document.body.removeChild(existingLink);
+                }
 
-                    const filename = res.headers.get('content-disposition')?.match(/filename="(.+)"/)?.[1] ?? 'download.csv';
+                const filename = res.headers.get('content-disposition')?.match(/filename="(.+)"/)?.[1] ?? 'download.csv';
 
-                    return res.blob().then((blob) => {
-                        const link = document.createElement('a');
-                        const href = window.URL.createObjectURL(blob);
+                return res.blob().then((blob) => {
+                    const link = document.createElement('a');
+                    const href = window.URL.createObjectURL(blob);
 
-                        link.href = href;
-                        link.download = filename;
-                        document.body.appendChild(link);
+                    link.href = href;
+                    link.download = filename;
+                    document.body.appendChild(link);
 
-                        link.click();
+                    link.click();
 
-                        document.body.removeChild(link);
-                        window.URL.revokeObjectURL(href);
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(href);
 
-                        return true;
-                    });
-                })
-                .catch((err) => {
-                    alert(err);
-                    throw new Error(err);
+                    return true;
                 });
+            })
+            .catch((err) => {
+                alert(err);
+                throw new Error(err);
+            });
         },
         /**
          * @param {string} token
